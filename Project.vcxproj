@@ -164,6 +164,8 @@
     <ClInclude Include="Src\Application\Player.h" />
     <ClInclude Include="Src\Application\Scene.h" />
     <ClInclude Include="Src\Application\main.h" />
+    <ClInclude Include="Src\Application\Stage.h" />
+    <ClInclude Include="Src\Application\Wall.h" />
     <ClInclude Include="Src\System\Audio\KdAudio.h" />
     <ClInclude Include="src\System\Direct3D\KdDirect3D.h" />
     <ClInclude Include="Src\System\Direct3D\KdDirect3DHelper.h" />
@@ -179,8 +181,6 @@
     <ClInclude Include="src\System\KdSystem.h" />
     <ClInclude Include="src\System\Utility\KdUtility.h" />
     <ClInclude Include="src\System\Window\KdGameWindow.h" />
-    <ClInclude Include="Stage.h" />
-    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\2D-Y\Library\imgui\imgui.cpp" />
@@ -194,6 +194,8 @@
     <ClCompile Include="Src\Application\Player.cpp" />
     <ClCompile Include="Src\Application\Scene.cpp" />
     <ClCompile Include="Src\Application\main.cpp" />
+    <ClCompile Include="Src\Application\Stage.cpp" />
+    <ClCompile Include="Src\Application\Wall.cpp" />
     <ClCompile Include="Src\System\Audio\KdAudio.cpp" />
     <ClCompile Include="src\System\Direct3D\KdDirect3D.cpp" />
     <ClCompile Include="Src\System\Direct3D\KdDirect3DHelper.cpp" />
@@ -210,8 +212,6 @@
     <ClCompile Include="Src\System\Shader\SpriteShader\KdSpriteShader.cpp" />
     <ClCompile Include="Src\System\Shader\StandardShader\KdStandardShader.cpp" />
     <ClCompile Include="src\System\Window\KdGameWindow.cpp" />
-    <ClCompile Include="Stage.cpp" />
-    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="説明.txt" />

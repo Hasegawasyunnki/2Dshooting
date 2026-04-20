@@ -162,11 +162,11 @@
     <ClInclude Include="Src\Application\Player.h">
       <Filter>Src\Application\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Wall.h">
-      <Filter>Src\Application\Wall</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage.h">
+    <ClInclude Include="Src\Application\Stage.h">
       <Filter>Src\Application\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Wall.h">
+      <Filter>Src\Application\Wall</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -224,9 +224,6 @@
     <ClCompile Include="Src\Application\Player.cpp">
       <Filter>Src\Application\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Wall.cpp">
-      <Filter>Src\Application\Wall</Filter>
-    </ClCompile>
     <ClCompile Include="..\2D-Y\Library\imgui\imgui.cpp">
       <Filter>Library\imgui</Filter>
     </ClCompile>
@@ -245,8 +242,11 @@
     <ClCompile Include="..\2D-Y\Library\imgui\imgui_widgets.cpp">
       <Filter>Library\imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Stage.cpp">
+    <ClCompile Include="Src\Application\Stage.cpp">
       <Filter>Src\Application\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Wall.cpp">
+      <Filter>Src\Application\Wall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

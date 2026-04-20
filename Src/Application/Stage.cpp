@@ -25,7 +25,7 @@ void Stage::Draw()
 void Stage::DrawDebug()
 {
 	if (ImGui::Begin("Debug Window")) {
-		// これでエラーが出なくなるはずです！
+
 		ImGui::Text("WallL Left: %ld", m_wallL.GetRect().left);
 		ImGui::Text("WallR Left: %ld", m_wallR.GetRect().left);
 	}
