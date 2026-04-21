@@ -12,6 +12,7 @@ private:
 
 	C_Player m_player;  //クラスの変数
 	C_Enemy m_enemy[10];   //クラスの変数
+	C_Bullet m_bullet;
 
 	int m_enemyNum;
 
@@ -39,6 +40,8 @@ public:
 	void ImGuiUpdate();
 
 	void CalcMousePos();
+
+	void ResetGame();
 
 	C_Enemy* GetEnemy();
 

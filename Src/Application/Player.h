@@ -18,6 +18,8 @@ public:
 	 void SetTex(KdTexture* Tex);
 	 void SetOwner(Scene*owner);
 
+	 C_Bullet* GetBullet(int index) { return &m_bullet[index]; }
+
 private:
 
 	Scene* m_owner;

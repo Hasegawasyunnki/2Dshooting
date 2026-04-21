@@ -16,6 +16,7 @@ public:
 	void PlayerHit();
 
 	void SetTex(KdTexture* Tex); //セッター
+	Math::Vector2 GetPos();
 
 	//敵が生きているか？
 	bool IsAlive() const { return m_alive; }

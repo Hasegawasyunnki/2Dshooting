@@ -2,6 +2,8 @@
 #include "Scene.h"
 #include "Stage.h"
 #include "Enemy.h"
+#include "Bullet.h"
+
 
 void Scene::Init()
 {
@@ -32,6 +34,8 @@ void Scene::Init()
 
 	m_stage.Initialize(&m_playerTex);
 
+	ResetGame();
+	
 	/*m_wallL.Initialize(0, 0, 32, 720);
 	m_wallR.Initialize(1248, 0, 32, 720);*/
 }
@@ -39,32 +43,64 @@ void Scene::Init()
 void Scene::Update()
 {
 	CalcMousePos();
-
 	m_player.Update(m_mousePos);
+
+	for (int b = 0; b < 100; b++) // 弾の数だけループ
+	{
+		// プレイヤーのb番目の弾を取り出す（仮に GetBullet という関数を作った場合）
+		C_Bullet* pBullet = m_player.GetBullet(b);
+
+		if (pBullet->GetAlive())
+		{
+			for (int i = 0; i < m_enemyNum; i++)
+			{
+				if (!m_enemy[i].IsAlive()) continue;
+
+				float dx = pBullet->GetPos().x - m_enemy[i].GetPos().x;
+				float dy = pBullet->GetPos().y - m_enemy[i].GetPos().y;
+				float distSq = (dx * dx) + (dy * dy);
+
+				if (distSq < (30.0f * 30.0f))
+				{
+					m_enemy[i].Hit();
+					pBullet->Hit(); // 弾を消す
+				}
+			}
+		}
+	}
 
 	int aliveCount = 0;
 	for (int i = 0; i < m_enemyNum; i++)
 	{
-		m_enemy[i].Update();
-
 		if (m_enemy[i].IsAlive())
 		{
+			m_enemy[i].Update();
 			aliveCount++;
 		}
 	}
+
 	if (aliveCount == 0)
 	{
-		this->Init();
+		this->ResetGame();
 	}
 }
+
 
 void Scene::Draw2D()
 {
 	m_player.Draw();
 
+	if (m_bullet.GetAlive())
+	{
+		m_bullet.Draw();
+	}
+
 	for (int i = 0; i < m_enemyNum; i++)
 	{
-		m_enemy[i].Draw();
+		if (m_enemy[i].IsAlive())
+		{
+			m_enemy[i].Draw();
+		}
 	}
 
 	m_stage.Draw();
@@ -97,6 +133,18 @@ void Scene::CalcMousePos()
 	m_mousePos.x -= 640;
 	m_mousePos.y -= 360;
 	m_mousePos.y *= -1;
+}
+
+void Scene::ResetGame()
+{
+	m_enemyNum = (rand() % 8) + 3;
+	for (int i = 0;i < m_enemyNum;i++)
+	{
+		m_enemy[i].Init();
+		m_enemy[i].SetTex(&m_enemyTex);
+
+		m_enemy[i].Update();
+	}
 }
 
 C_Enemy* Scene::GetEnemy()

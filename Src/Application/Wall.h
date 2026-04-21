@@ -9,6 +9,8 @@ public:
 
 	void Draw();
 
+	void Hit();
+
 	void SetTex(KdTexture* tex) { m_tex = tex; }
 
 	RECT GetRect() const { return m_rect; }

@@ -22,9 +22,6 @@ void C_Bullet::Update()
 	m_pos.x += cos(m_angle) * m_moveSpeed;
 	m_pos.y += sin(m_angle) * m_moveSpeed;
 
-	m_atan2 = atan2(m_pos.y, m_pos.x);
-	m_pos.x += cos(m_atan2) * m_moveSpeed;
-
 	if (m_pos.x > 640 || m_pos.x < -640 || m_pos.y > 360 || m_pos.y < -360)
 	{
 		m_alive = false;
