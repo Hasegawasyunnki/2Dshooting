@@ -11,9 +11,9 @@ public:
 	void Update();
 	void Draw();
 
-	void Shot(Math::Vector2 pos,float targetAngle);
+	void Shot(Math::Vector2 pos, float targetAngle);
 	void Hit();
-	 
+
 	void SetTex(KdTexture* tex);
 
 	bool GetAlive();

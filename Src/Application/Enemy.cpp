@@ -11,10 +11,10 @@ C_Enemy::~C_Enemy()
 
 void C_Enemy::Init()
 {
-	m_pos.x = (float)(rand() % 600 - 300);
-	m_pos.y = 400.0f;
-	//m_move.x = m_moveSpeed;
-	m_move.y = -2.0f ;
+	m_pos.x = 700.0f;
+	m_pos.y = (float)(rand() % 400 - 200);
+	m_move.x = -2.0f;
+	m_move.y = 0.0f;
 	m_alive = true;
 
 	if (rand() % 2 == 0)
@@ -31,9 +31,9 @@ void C_Enemy::Update()
 {
 	if (!m_alive)return;
 
-	m_pos.y += m_move.y;
+	m_pos.x += m_move.x;
 
-	if (m_pos.y < -400.0f)
+	if (m_pos.x < -700.0f)
 	{
 		m_alive = false;
 	}
@@ -52,6 +52,22 @@ void C_Enemy::Draw()
 void C_Enemy::Hit()
 {
 	m_alive = false;
+}
+
+void C_Enemy::PlayerHit()
+{
+	/*C_Player* m_player = ->GetPos();
+	if ()
+	{
+		float dx = ;
+		float dy = ;
+		float distSq = (dx * dx) + (dy * dy);
+
+		if (distSq < (30.0f * 30.0f))
+		{
+			
+		}
+	};*/
 }
 
 

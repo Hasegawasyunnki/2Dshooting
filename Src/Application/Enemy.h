@@ -1,13 +1,17 @@
 #pragma once
 #include "Bullet.h"
-#include "Player.h"
+
+class Bullet;
+class Player;
 
 class C_Enemy
 {
 public:
 
-	C_Enemy();
-	~C_Enemy();
+	C_Enemy() ;
+	~C_Enemy() ;
+
+	//C_Player m_player;
 
 	void Init();
 	void Update();
@@ -21,7 +25,7 @@ public:
 	//“G‚ª¶‚«‚Ä‚¢‚é‚©H
 	bool IsAlive() const { return m_alive; }
 
-	Scene* m_owner ;
+	//Scene* m_owner;
 
 private:
 

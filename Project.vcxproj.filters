@@ -58,6 +58,9 @@
     <Filter Include="Src\Application\Stage">
       <UniqueIdentifier>{cb7e0f4e-341d-4432-8d4e-aeb9c8d6ae45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\TitleScene">
+      <UniqueIdentifier>{5acf2f08-4b69-4047-90a2-77438a174c8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -153,9 +156,6 @@
     <ClInclude Include="Src\Application\Scene.h">
       <Filter>Src\Application</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Application\Bullet.h">
-      <Filter>Src\Application\Bullet</Filter>
-    </ClInclude>
     <ClInclude Include="Src\Application\Enemy.h">
       <Filter>Src\Application\Enemy</Filter>
     </ClInclude>
@@ -167,6 +167,12 @@
     </ClInclude>
     <ClInclude Include="Src\Application\Wall.h">
       <Filter>Src\Application\Wall</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\Bullet.h">
+      <Filter>Src\Application\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Application\TitleScene\TitleScene.h">
+      <Filter>Src\Application\TitleScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -215,9 +221,6 @@
     <ClCompile Include="Src\Application\Scene.cpp">
       <Filter>Src\Application</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Application\Bullet.cpp">
-      <Filter>Src\Application\Bullet</Filter>
-    </ClCompile>
     <ClCompile Include="Src\Application\Enemy.cpp">
       <Filter>Src\Application\Enemy</Filter>
     </ClCompile>
@@ -247,6 +250,12 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Wall.cpp">
       <Filter>Src\Application\Wall</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\Bullet.cpp">
+      <Filter>Src\Application\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\TitleScene\TitleScene.cpp">
+      <Filter>Src\Application\TitleScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

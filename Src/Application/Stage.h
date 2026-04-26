@@ -1,5 +1,6 @@
 #pragma once
 #include "Wall.h"
+class Wall;
 
 class Stage {
 public:

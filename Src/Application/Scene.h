@@ -10,8 +10,8 @@ private:
 
 	Stage m_stage;
 
-	C_Player m_player;  //クラスの変数
-	C_Enemy m_enemy[10];   //クラスの変数
+	C_Player m_player;		//クラスの変数
+	C_Enemy m_enemy[10]; 
 	C_Bullet m_bullet;
 
 	int m_enemyNum;
