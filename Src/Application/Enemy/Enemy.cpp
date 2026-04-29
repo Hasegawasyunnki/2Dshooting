@@ -1,5 +1,5 @@
 #include "Enemy.h"
-#include "Player.h"
+#include "../Player/Player.h"
 
 C_Enemy::C_Enemy()
 {
@@ -11,17 +11,17 @@ C_Enemy::~C_Enemy()
 
 void C_Enemy::Init()
 {
-	m_pos.x = 700.0f;
-	m_pos.y = (float)(rand() % 400 - 200);
-	m_move.x = -2.0f;
+	m_pos.x = 800.0f;
+	m_pos.y = (float)(rand() % 600 - 300);
+	m_move.x = -3.0f;
 	m_move.y = 0.0f;
 	m_alive = true;
 
 	if (rand() % 2 == 0)
 	{
-		m_pos.x =(float)((rand() % 220) + 100);
+		m_pos.x = (float)((rand() % 220) + 100);
 	}
-	else 
+	else
 	{
 		m_pos.x = (float)((rand() % 220) - 320);
 	}
@@ -33,9 +33,11 @@ void C_Enemy::Update()
 
 	m_pos.x += m_move.x;
 
-	if (m_pos.x < -700.0f)
+	if (m_pos.x < -800.0f)
 	{
-		m_alive = false;
+		//m_alive = false;
+		m_pos.x = 800.0f;
+		m_pos.y = (float)(rand() % 600 - 300);
 	}
 
 	m_mat = Math::Matrix::CreateTranslation(m_pos.x, m_pos.y, 0);
@@ -51,23 +53,14 @@ void C_Enemy::Draw()
 
 void C_Enemy::Hit()
 {
-	m_alive = false;
+	//m_alive = false;
+	m_pos.x = 900.0f;
+	m_pos.y = (float)(rand() % 600 - 300);
 }
 
 void C_Enemy::PlayerHit()
 {
-	/*C_Player* m_player = ->GetPos();
-	if ()
-	{
-		float dx = ;
-		float dy = ;
-		float distSq = (dx * dx) + (dy * dy);
 
-		if (distSq < (30.0f * 30.0f))
-		{
-			
-		}
-	};*/
 }
 
 

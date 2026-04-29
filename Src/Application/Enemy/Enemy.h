@@ -1,5 +1,5 @@
 #pragma once
-#include "Bullet.h"
+#include "../Bullet/Bullet.h"
 
 class Bullet;
 class Player;
@@ -8,8 +8,8 @@ class C_Enemy
 {
 public:
 
-	C_Enemy() ;
-	~C_Enemy() ;
+	C_Enemy();
+	~C_Enemy();
 
 	//C_Player m_player;
 
@@ -18,11 +18,12 @@ public:
 	void Draw();
 	void Hit();
 	void PlayerHit();
+	void SetPos(float x, float y) { m_pos.x = x; m_pos.y = y; };
 
-	void SetTex(KdTexture* Tex); //ƒZƒbƒ^[
+	void SetTex(KdTexture* Tex); //ã‚»ãƒƒã‚¿ãƒ¼
 	Math::Vector2 GetPos();
 
-	//“G‚ª¶‚«‚Ä‚¢‚é‚©H
+	//æ•µãŒç”Ÿãã¦ã„ã‚‹ã‹ï¼Ÿ
 	bool IsAlive() const { return m_alive; }
 
 	//Scene* m_owner;

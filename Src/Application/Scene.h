@@ -1,8 +1,9 @@
 #pragma once
-#include "Player.h"
-#include "Enemy.h"
+#include "../Application/Player/Player.h"
+#include "../Application/Enemy/Enemy.h"
 #include "Wall.h"
-#include "Stage.h"
+#include "../Application/Stage/Stage.h"
+#include "../Application/Bullet/Bullet.h"
 
 class Scene
 {
@@ -19,6 +20,8 @@ private:
 	KdTexture m_playerTex;
 	KdTexture m_enemyTex;
 	KdTexture m_wallTex;
+	KdTexture m_stageTex;
+	KdTexture m_backTex;
 
 	POINT m_mousePos;
 

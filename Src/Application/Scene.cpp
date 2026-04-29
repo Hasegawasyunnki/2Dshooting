@@ -1,8 +1,8 @@
 #include "main.h"
 #include "Scene.h"
-#include "Stage.h"
-#include "Enemy.h"
-#include "Bullet.h"
+#include "../Application/Stage/Stage.h"
+#include "../Application/Enemy/Enemy.h"
+
 
 
 void Scene::Init()
@@ -24,14 +24,15 @@ void Scene::Init()
 
 	m_playerTex.Load("Texture/player.png");
 	m_enemyTex.Load("Texture/enemy.png");
-	m_wallTex.Load("Texture/wall.png");
+	m_stageTex.Load("Texture/background.png");
+	//m_wallTex.Load("Texture/wall.png");
 
 	m_player.SetTex(&m_playerTex);
-	m_stage.Initialize(&m_wallTex);
+	m_stage.Initialize(&m_stageTex);
 
 	m_player.SetOwner(this);
 
-	m_stage.Initialize(&m_playerTex);
+	//m_stage.Initialize(&m_playerTex);
 
 	ResetGame();
 	
@@ -47,24 +48,32 @@ void Scene::Update()
 	m_player.CheckHitBullet(m_enemy, m_enemyNum);
 	m_player.CheckHitPlayer(m_enemy, m_enemyNum);
 
-	int aliveCount = 0;
-	for (int i = 0; i < m_enemyNum; i++)
-	{
-		if (m_enemy[i].IsAlive())
-		{
-			m_enemy[i].Update();
-			aliveCount++;
-		}
-	}
+	m_stage.Update();
 
-	if (aliveCount == 0)
+	//int aliveCount = 0;
+	//for (int i = 0; i < m_enemyNum; i++)
+	//{
+	//	if (m_enemy[i].IsAlive())
+	//	{
+	//		m_enemy[i].Update();
+	//		aliveCount++;
+	//	}
+	//}
+
+	//if (aliveCount == 0)
+	//{
+	//	this->ResetGame();
+	//}
+	for(int i=0;i<m_enemyNum;i++)
 	{
-		this->ResetGame();
+		m_enemy[i].Update();
 	}
 }
 
 void Scene::Draw2D()
 {
+	m_stage.Draw();
+
 	m_player.Draw();
 
 	for (int i = 0; i < m_enemyNum; i++)
@@ -75,7 +84,6 @@ void Scene::Draw2D()
 		}
 	}
 
-	m_stage.Draw();
 }
 
 void Scene::Release()
@@ -114,6 +122,9 @@ void Scene::ResetGame()
 	{
 		m_enemy[i].Init();
 		m_enemy[i].SetTex(&m_enemyTex);
+
+		float startX = 800.0f + (i * 250.0f);
+		m_enemy[i].SetPos(startX, (float)(rand() % 600 - 300));
 
 		m_enemy[i].Update();
 	}

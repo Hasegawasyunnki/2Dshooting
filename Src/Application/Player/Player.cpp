@@ -1,6 +1,6 @@
 #include "Player.h"
-#include "Scene.h"
-#include "Bullet.h"
+#include "../Scene.h"
+#include "../Enemy/Enemy.h"
 C_Player::C_Player()
 {
 }
@@ -67,7 +67,7 @@ void C_Player::Draw()
 }
 
 //弾の当たり判定
-void C_Player::CheckHitBullet(C_Enemy* enemyList, int enemyNum) 
+void C_Player::CheckHitBullet(C_Enemy* enemyList, int enemyNum)
 {
 	for (int b = 0; b < m_bulletNum; b++) {
 		if (!m_bullet[b].GetAlive()) continue;
