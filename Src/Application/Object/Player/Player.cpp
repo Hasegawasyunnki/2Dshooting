@@ -1,9 +1,5 @@
 #include "Player.h"
-#include "../Scene.h"
 #include "../Enemy/Enemy.h"
-C_Player::C_Player()
-{
-}
 
 C_Player::~C_Player()
 {
@@ -64,6 +60,7 @@ void C_Player::Draw()
 	{
 		m_bullet[i].Draw();
 	}
+
 }
 
 //弾の当たり判定
@@ -101,11 +98,6 @@ void C_Player::CheckHitPlayer(C_Enemy* enemyList, int enemyNum)
 void C_Player::SetTex(KdTexture* Tex)
 {
 	m_tex = Tex;
-}
-
-void C_Player::SetOwner(Scene* owner)
-{
-	m_owner = owner;
 }
 
 Math::Vector2 C_Player::GetPos()

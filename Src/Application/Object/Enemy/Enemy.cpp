@@ -1,14 +1,6 @@
 #include "Enemy.h"
 #include "../Player/Player.h"
 
-C_Enemy::C_Enemy()
-{
-}
-
-C_Enemy::~C_Enemy()
-{
-}
-
 void C_Enemy::Init()
 {
 	m_pos.x = 800.0f;
@@ -16,7 +8,7 @@ void C_Enemy::Init()
 	m_move.x = -3.0f;
 	m_move.y = 0.0f;
 	m_alive = true;
-
+	
 	if (rand() % 2 == 0)
 	{
 		m_pos.x = (float)((rand() % 220) + 100);
@@ -60,7 +52,6 @@ void C_Enemy::Hit()
 
 void C_Enemy::PlayerHit()
 {
-
 }
 
 

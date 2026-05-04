@@ -1,5 +1,5 @@
 #include "main.h"
-#include "Scene.h"
+#include "Scene/SceneManager.h"
 #include <ctime>
 
 //===================================================================
@@ -149,7 +149,7 @@ void Application::Execute()
 	//===================================================================
 
 	// ゲームインスタンス
-	SCENE.Init();
+	//SCENE.Init();
 
 	// 時間
 	DWORD baseTime = timeGetTime();
@@ -201,12 +201,14 @@ void Application::Execute()
 		// Zバッファクリア
 		D3D.GetDevContext()->ClearDepthStencilView(D3D.GetZBuffer(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
 
+		SCENE.PreUpdate();
+
 		// ゲーム更新処理
 		SCENE.Update();
 
 		// ゲーム描画処理
 		SHADER.m_spriteShader.Begin();
-		SCENE.Draw2D();
+		SCENE.Draw();
 		SHADER.m_spriteShader.End();
 
 
@@ -253,7 +255,7 @@ void Application::Execute()
 	}
 
 	// ゲーム解放
-	SCENE.Release();
+	//SCENE.Release();
 
 
 	//===================================================================

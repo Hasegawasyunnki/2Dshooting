@@ -1,5 +1,5 @@
 #pragma once
-#include "../Bullet/Bullet.h"
+#include "../../Bullet/Bullet.h"
 
 class Bullet;
 class Player;
@@ -8,8 +8,8 @@ class C_Enemy
 {
 public:
 
-	C_Enemy();
-	~C_Enemy();
+	C_Enemy() {};
+	~C_Enemy() {};
 
 	//C_Player m_player;
 
