@@ -2,6 +2,7 @@
 
 #include "TitleScene/TitleScene.h"
 #include "GameScene/GameScene.h"
+#include "ResultScene/ResultScene.h"
 
 void SceneManager::PreUpdate()
 {
@@ -22,15 +23,18 @@ void SceneManager::Update()
 
 void SceneManager::Draw()
 {
+	SHADER.m_spriteShader.Begin();
+
 	if (m_currentScene)
 	{
 		m_currentScene->Draw();
 	}
+	SHADER.m_spriteShader.End();
 }
 
 void SceneManager::Init()
 {
-	ChangeScene(SceneType::Game);
+	ChangeScene(m_currentSceneType);
 }
 
 void SceneManager::Release()
@@ -48,6 +52,9 @@ void SceneManager::ChangeScene(SceneType _sceneType)
 		break;
 	case SceneManager::Game:
 		m_currentScene = std::make_shared<GameScene>();
+		break;
+	case SceneManager::Result:
+		//m_currentScene = std::make_shared<ResultScene>();
 		break;
 	}
 	if (m_currentScene)

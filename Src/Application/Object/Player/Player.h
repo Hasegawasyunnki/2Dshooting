@@ -11,7 +11,7 @@ public:
 	~C_Player();
 
 	void Init();
-	void Update(POINT mousePos);
+	void Update();
 	void Draw();
 	void CheckHitBullet(C_Enemy* enemyList, int enemyNum);
 	void CheckHitPlayer(C_Enemy* enemyList, int enemyNum);
@@ -37,6 +37,8 @@ private:
 
 	const float m_moveSpeed = 5.0f;
 	int m_life = 3;
+
+	int m_shotTimer = 0;
 
 	KdTexture* m_tex;
 	Math::Vector2 m_pos; //座標

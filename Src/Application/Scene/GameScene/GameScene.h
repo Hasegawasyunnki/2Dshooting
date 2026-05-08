@@ -4,12 +4,13 @@
 #include "../../Object/Enemy/Enemy.h"
 #include "../../Stage/Stage.h"
 #include "../../Bullet/Bullet.h"
+#include <vector>
 
 class GameScene : public BaseScene
 {
 public:
 	GameScene() {}
-	~GameScene() { Release(); }
+	~GameScene();
 
 	void Init() override;
 	void Update() override;
@@ -18,6 +19,11 @@ public:
 
 	void CalcMousePos();
 	void ResetGame();
+	void AddScore(int value);
+	int GetScore() const { return m_score; }
+
+	void SpawnBoss();
+
 
 private:
 	Stage m_stage;
@@ -30,5 +36,11 @@ private:
 	KdTexture m_stageTex;
 	KdTexture m_backTex;
 
+	int m_score = 0;
+
+	int m_deadEnemyCount = 0;	//敵死亡数カウント
+	bool m_isBossSpawned = false;
+	std::vector<C_Enemy*> m_enemyList;
+	
 	POINT m_mousePos;
 };

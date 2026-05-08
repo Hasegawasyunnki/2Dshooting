@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "../Enemy/Enemy.h"
+#include "../../Scene/GameScene/GameScene.h"
 
 C_Player::~C_Player()
 {
@@ -19,33 +20,51 @@ void C_Player::Init()
 	}
 }
 
-void C_Player::Update(POINT mousePos)
+void C_Player::Update()
 {
-	if (GetAsyncKeyState('W') & 0x8000)m_pos.y += m_moveSpeed;
-	if (GetAsyncKeyState('A') & 0x8000)m_pos.x -= m_moveSpeed;
-	if (GetAsyncKeyState('S') & 0x8000)m_pos.y -= m_moveSpeed;
-	if (GetAsyncKeyState('D') & 0x8000)m_pos.x += m_moveSpeed;
+	if (GetAsyncKeyState(VK_UP) & 0x8000)	m_pos.y += m_moveSpeed;
+	if (GetAsyncKeyState(VK_DOWN) & 0x8000) m_pos.y -= m_moveSpeed;
+	if (GetAsyncKeyState(VK_LEFT) & 0x8000) m_pos.x -= m_moveSpeed;
+	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)m_pos.x += m_moveSpeed;
 
-	if (GetAsyncKeyState(VK_LBUTTON) & 0x8000)
-	{
-		for (int i = 0; i < m_bulletNum; i++)
-		{
-			if (!m_bullet[i].GetAlive())
-			{
-				const float x = mousePos.x - m_pos.x;
-				const float y = mousePos.y - m_pos.y;
-				const float radian = atan2(y, x);
-
-				m_bullet[i].Shot(m_pos, radian);
-				break;
-			}
-		}
-	}
-
-	m_mat = Math::Matrix::CreateTranslation(m_pos.x, m_pos.y, 0);
 	Math::Matrix rotation = Math::Matrix::CreateRotationZ(-DirectX::XM_PIDIV2);
 	Math::Matrix translation = Math::Matrix::CreateTranslation(m_pos.x, m_pos.y, 0);
 	m_mat = rotation * translation;
+
+	m_shotTimer++;
+
+	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+	{
+		if (m_shotTimer > 10)
+		{
+			for (int i = 0; i < m_bulletNum; i++)
+			{
+				if (!m_bullet[i].GetAlive())
+				{
+					float tempAngle = 0.0f;
+
+					if (GetAsyncKeyState('R') & 0x8000)
+					{
+						if (GetAsyncKeyState('W') & 0x8000)tempAngle = 0.785f; // 約 -45度
+						else if (GetAsyncKeyState('S') & 0x8000)tempAngle = -0.785f;  // 約 +45度
+					}
+					else
+					{
+						tempAngle = 0.0f;
+					}
+	
+					m_bullet[i].Shot(m_pos, tempAngle);
+
+					m_shotTimer = 0;
+					break;
+					}
+				}
+			}
+		}
+
+
+	//m_mat = Math::Matrix::CreateTranslation(m_pos.x, m_pos.y, 0);
+	
 	for (int i = 0; i < m_bulletNum; i++)
 	{
 		m_bullet[i].Update();
@@ -60,7 +79,6 @@ void C_Player::Draw()
 	{
 		m_bullet[i].Draw();
 	}
-
 }
 
 //弾の当たり判定

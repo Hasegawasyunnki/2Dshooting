@@ -1,17 +1,10 @@
 #include "Bullet.h"
 
-C_Bullet::C_Bullet()
-{
-}
-
-C_Bullet::~C_Bullet()
-{
-}
-
 void C_Bullet::Init()
 {
 	m_pos.x = 0;
 	m_pos.y = 0;
+	m_angle = 0.0f;
 	m_alive = false;
 }
 
@@ -20,7 +13,7 @@ void C_Bullet::Update()
 	if (!m_alive)return;
 
 	m_pos.x += cos(m_angle) * m_moveSpeed;
-	m_pos.y += sin(m_angle) * m_moveSpeed;
+	m_pos.y -= sin(m_angle) * m_moveSpeed;
 
 	if (m_pos.x > 640 || m_pos.x < -640 || m_pos.y > 360 || m_pos.y < -360)
 	{

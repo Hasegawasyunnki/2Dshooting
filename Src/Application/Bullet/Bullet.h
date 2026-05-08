@@ -4,8 +4,8 @@ class C_Bullet
 {
 public:
 
-	C_Bullet();
-	~C_Bullet();
+	C_Bullet() {};
+	~C_Bullet() {};
 
 	void Init();
 	void Update();
@@ -24,8 +24,7 @@ private:
 
 	const float m_moveSpeed = 10.0f;
 	const float m_radius = 8.0f;
-	float m_atan2 = atan2(1, 0);
-
+	
 	KdTexture* m_tex;
 	Math::Vector2 m_pos;
 	Math::Matrix m_mat;
