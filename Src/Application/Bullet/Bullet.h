@@ -4,7 +4,7 @@ class C_Bullet
 {
 public:
 
-	C_Bullet() {};
+	C_Bullet() : m_alive(true) {};
 	~C_Bullet() {};
 
 	void Init();
@@ -15,6 +15,9 @@ public:
 	void Hit();
 
 	void SetTex(KdTexture* tex);
+
+	bool IsAlive() const { return m_alive; }
+	void SetAlive(bool alive) { m_alive = alive; }
 
 	bool GetAlive();
 	Math::Vector2 GetPos();
@@ -29,5 +32,5 @@ private:
 	Math::Vector2 m_pos;
 	Math::Matrix m_mat;
 	float m_angle;
-	bool m_alive;
+	bool m_alive = true;
 };

@@ -105,7 +105,8 @@ bool Application::Init(int w, int h)
 		io.Fonts->AddFontDefault();
 		io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msgothic.ttc", 13.0f, &config, glyphRangesJapanese);
 	}
-
+	//　カーソル非表示
+	ShowCursor(false);
 	return true;
 }
 
@@ -250,6 +251,10 @@ void Application::Execute()
 			m_fps = (count * 1000) / (st - baseTime);
 			baseTime = st;
 			count = 0;
+
+			std::string title = "Burst Orbis  |  FPS: " + std::to_string(m_fps);
+			SetWindowTextA(m_window.GetWndHandle(), title.c_str());
+
 		}
 
 	}

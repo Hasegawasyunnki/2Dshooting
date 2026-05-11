@@ -160,6 +160,7 @@
     <ClInclude Include="..\Library\tinygltf\stb_image_write.h" />
     <ClInclude Include="..\Library\tinygltf\tiny_gltf.h" />
     <ClInclude Include="Src\Application\Bullet\Bullet.h" />
+    <ClInclude Include="Src\Application\EnemyBullet\EnemyBullet.h" />
     <ClInclude Include="Src\Application\Gravity\Gravity.h" />
     <ClInclude Include="Src\Application\Object\Boss\Boss.h" />
     <ClInclude Include="Src\Application\Object\Enemy\Enemy.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="..\2D-Y\Library\imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="..\2D-Y\Library\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Src\Application\Bullet\Bullet.cpp" />
+    <ClCompile Include="Src\Application\EnemyBullet\EnemyBullet.cpp" />
     <ClCompile Include="Src\Application\Gravity\Gravity.cpp" />
     <ClCompile Include="Src\Application\Object\Boss\Boss.cpp" />
     <ClCompile Include="Src\Application\Object\Enemy\Enemy.cpp" />

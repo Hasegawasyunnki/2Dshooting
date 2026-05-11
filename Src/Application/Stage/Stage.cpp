@@ -14,33 +14,37 @@ void Stage::Initialize(KdTexture* tex)
 
 void Stage::Update()
 {
-	float scrollSpeed = 2.0f;
-
+	float scrollSpeed = 1.5f;
 	m_bgX1 -= scrollSpeed;
-	m_bgX2 -= scrollSpeed;
 
-	if (m_bgX1 <= -1280.0f)
-	{
-		m_bgX1 = m_bgX2 + 1280.0f;
-	}
+	float totalWidth = 2540.0f;
 
-	if (m_bgX2 <= -1280.0f)
+	if (m_bgX1 <= -totalWidth)
 	{
-		m_bgX2 = m_bgX1 + 1280.0f;
+		m_bgX1 += totalWidth; 
 	}
 }
 
 void Stage::Draw()
 {
-	/*m_wallL.Draw();
-	m_wallR.Draw();*/
+	Math::Rectangle srcRect = Math::Rectangle(5, 0, 1270, 720);
+	float step = 1270.0f;
+
+	Math::Matrix mat0 = Math::Matrix::CreateScale(-1.0f, 1.0f, 1.0f) * Math::Matrix::CreateTranslation(m_bgX1 - step, 0, 0);
+	SHADER.m_spriteShader.SetMatrix(mat0);
+	SHADER.m_spriteShader.DrawTex(m_tex, srcRect, 1.0f);
+
 	Math::Matrix mat1 = Math::Matrix::CreateTranslation(m_bgX1, 0, 0);
 	SHADER.m_spriteShader.SetMatrix(mat1);
-	SHADER.m_spriteShader.DrawTex(m_tex, Math::Rectangle(0, 0, 1280, 720), 1.0f);
+	SHADER.m_spriteShader.DrawTex(m_tex, srcRect, 1.0f);
 
-	Math::Matrix mat2 = Math::Matrix::CreateTranslation(m_bgX2, 0, 0);
+	Math::Matrix mat2 = Math::Matrix::CreateScale(-1.0f, 1.0f, 1.0f) * Math::Matrix::CreateTranslation(m_bgX1 + step, 0, 0);
 	SHADER.m_spriteShader.SetMatrix(mat2);
-	SHADER.m_spriteShader.DrawTex(m_tex, Math::Rectangle(0, 0, 1280, 720), 1.0f);
+	SHADER.m_spriteShader.DrawTex(m_tex, srcRect, 1.0f);
+
+	Math::Matrix mat3 = Math::Matrix::CreateTranslation(m_bgX1 + (step * 2.0f), 0, 0);
+	SHADER.m_spriteShader.SetMatrix(mat3);
+	SHADER.m_spriteShader.DrawTex(m_tex, srcRect, 1.0f);
 
 }
 

@@ -4,34 +4,52 @@
 
 void C_Enemy::Init()
 {
-	m_pos.x = 800.0f;
-	m_pos.y = (float)(rand() % 600 - 300);
+	m_pos = { 2000.0f,2000.0f };
+	m_mat = Math::Matrix::CreateTranslation(m_pos.x, m_pos.y, 0); 
 	m_move.x = -3.0f;
 	m_move.y = 0.0f;
 	m_timer = 0.0f;
-	m_stopX = (float)(rand() % 301 + 400);
-	m_alive = true;
+	m_stopX = (float)(rand() % 351 + 100);
+	m_hoverOffset = (float)(rand() % 121 - 60);
+	m_alive = false;
+	m_dead = false;
 	
-	if (rand() % 2 == 0)
+	m_targetOffset.x = (float)(rand() % 201 - 100);
+	m_targetOffset.y = (float)(rand() % 201 - 100);
+	/*if (rand() % 2 == 0)
 	{
 		m_pos.x = (float)((rand() % 220) + 100);
 	}
 	else
 	{
 		m_pos.x = (float)((rand() % 220) - 320);
-	}
+	}*/
 }
 
 void C_Enemy::Update()
 {
 	if (!m_alive)return;
-
-	UpdateMovePattern();
-	
-	if (m_pos.x < -800.0f)
-	{
-		m_pos.x = 800.0f;
+	/*{
+		m_pos.x = 800.0f + (rand() % 300);
 		m_pos.y = (float)(rand() % 600 - 300);
+
+		m_alive = true;
+		m_timer = 0.0f;
+		m_type = static_cast<EnemyType>(rand() % 4);
+
+		return;
+	}*/
+
+	float currentSpeed = m_moveSpeed;
+	UpdateMovePattern(currentSpeed);
+
+	//m_pos.x += 5.0f;
+
+	//m_pos.x -= 3.0f;
+	
+	if (m_pos.x < -800.0f || m_pos.x>1200.0f)
+	{
+		m_alive = false;
 	}
 
 	m_mat = Math::Matrix::CreateTranslation(m_pos.x, m_pos.y, 0);
@@ -45,31 +63,39 @@ void C_Enemy::Draw()
 	SHADER.m_spriteShader.DrawTex(m_tex, Math::Rectangle(0, 0, 64, 64), 1.0f);
 }
 
-void C_Enemy::Hit()
+void C_Enemy::Hit(bool isDefeated)
 {
 	if (!m_alive)return;
 
-	if (m_pOwner!=nullptr)
+	// スコア加算
+	if (m_pOwner != nullptr && isDefeated)
 	{
 		m_pOwner->AddScore(100);
+	}
+	else 
+	{
+		m_pOwner->AddScore(-50);
+	}
+	
+	// 自機の体力を減らす
+	if (!isDefeated && m_playerPtr != nullptr)
+	{
+		m_playerPtr->LostLife();
 	}
 
 	m_pos.x = 900.0f;
 	m_pos.y = (float)(rand() % 600 - 300);
-	m_alive = true;
+	m_alive = false;
 	m_type = static_cast<EnemyType>(rand() % 3);
 	m_timer = 0.0f;
 }
 
-void C_Enemy::PlayerHit()
+void C_Enemy::SetPos(float x, float y)
 {
+	m_pos.x = x;
+	m_pos.y = y;
 
-}
-
-
-void C_Enemy::SetTex(KdTexture* Tex)
-{
-	m_tex = Tex;
+	m_mat = Math::Matrix::CreateTranslation(m_pos.x, m_pos.y, 0);
 }
 
 void C_Enemy::SetTargetPos(float x, float y)
@@ -78,48 +104,103 @@ void C_Enemy::SetTargetPos(float x, float y)
 	m_targetPos.y = y;
 }
 
-void C_Enemy::UpdateMovePattern()
+void C_Enemy::Shoot()
+{
+	if (m_pOwner)
+	{
+		m_pOwner->SpawnEnemyBullet(m_pos);
+	}
+}
+
+void C_Enemy::UpdateMovePattern(float speed)
 {
 	m_timer += 0.02f;
 	switch (m_type)
 	{
 	case EnemyType::Straight:
-		m_pos.x -= 5.0f;
+		m_pos.x -= 8.0f;
 		break;
 
 	case EnemyType::SineWave:
-		m_pos.x -= 4.0f;
+		m_pos.x -= 6.0f;
 		m_pos.y += sinf(m_timer * 2.0f) * 3.0f;
+
+		if (m_pos.y > 280.0f)m_pos.y = 280.0f;
+		if (m_pos.y < -280.0f)m_pos.y = -280.0f;
 		break;
 
 	case EnemyType::StopShot:
-		if (m_pos.x > m_targetPos.x)
+
+		if (m_pos.x > m_stopX)
 		{
-			m_pos.x -= 7.0f;
+			m_pos.x -= 8.0f;
 		}
-		if (abs(m_pos.y - m_targetPos.y) > 5.0f) 
+		else
 		{
-			if (m_pos.y < m_targetPos.y)m_pos.y += 2.0f;
-			else m_pos.y = -2.0f;
+			// 停止後の上下移動などの処理...
+			m_shotTimer++;
+			if (m_shotTimer > 120) {
+				Shoot();
+				m_shotTimer = 0;
+			}
 		}
 		break;
 		
-	case EnemyType::Homing:
-	{
-		Math::Vector2 target = { m_targetPos.x,m_targetPos.y };
-		Math::Vector2 current = { m_pos.x,m_pos.y };
-		Math::Vector2 enemyMove = target - current;
+	//case EnemyType::Homing:
+	//{
+	//	//Math::Vector2 target = { m_targetPos.x + m_targetOffset.x,m_targetPos.y + m_targetOffset.y };
 
-		if (enemyMove.LengthSquared() > 0.001f)
-		{
-			enemyMove.Normalize();
-			m_pos.x += enemyMove.x * 3.0f;
-			m_pos.y += enemyMove.y * 3.0f;
-		}
-		break;
-	}
+	//	/*if (m_pos.x < m_targetPos.x - 100.0f)
+	//	{
+	//		target.x += 50.0f;
+	//	}*/
+	//	Math::Vector2 target = m_targetPos += m_targetOffset;
+
+	//	Math::Vector2 current = { m_pos.x,m_pos.y };
+	//	Math::Vector2 enemyMove = target - current;
+
+	//	if (enemyMove.LengthSquared() > 1.0f)
+	//	{
+	//		enemyMove.Normalize();
+	//		/*float finalSpeed = speed;
+	//		if (target.x > current.x)
+	//		{
+	//			finalSpeed = speed + 2.0f;
+	//		}*/
+
+	//		/*m_pos.x += enemyMove.x * finalSpeed;
+	//		m_pos.y += enemyMove.y * finalSpeed;*/
+	//		m_pos += enemyMove * speed;
+	//	}
+	//	break;
+	//}
 
 	default:
 		break;
 	}
+
+	if (m_pOwner != nullptr)
+	{
+		for (int i = 0; i < 30; i++)
+		{
+			C_Enemy* other = m_pOwner->GetEnemyPtr(i);
+			if (other == nullptr || other == this || !other->IsAlive()) continue;
+
+			float dist = Math::Vector2::Distance(m_pos, other->GetPos());
+			if (dist < 50.0f) 
+			{
+				
+				if (m_pos.y > other->GetPos().y) m_pos.y += 2.0f;
+				else m_pos.y -= 2.0f;
+
+				if (m_type == EnemyType::StopShot) {
+					if (m_pos.x > other->GetPos().x) m_pos.x += 1.0f;
+					else m_pos.x -= 1.0f;
+				}
+			}
+		}
+	}
+	if (m_pos.y > 300.0f) m_pos.y = 300.0f;
+	if (m_pos.y < -300.0f) m_pos.y = -300.0f;
+
 }

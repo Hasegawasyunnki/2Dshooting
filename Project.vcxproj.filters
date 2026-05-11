@@ -82,6 +82,9 @@
     <Filter Include="Src\Application\Object\Boss">
       <UniqueIdentifier>{588f89c2-4328-417d-b8a5-a49bfd610c30}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Application\EnemyBullet">
+      <UniqueIdentifier>{d3729b18-2c88-49f0-873a-b39da66a48a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Pch.h">
@@ -210,6 +213,9 @@
     <ClInclude Include="Src\Application\Object\Boss\Boss.h">
       <Filter>Src\Application\Object\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Application\EnemyBullet\EnemyBullet.h">
+      <Filter>Src\Application\EnemyBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Pch.cpp">
@@ -307,6 +313,9 @@
     </ClCompile>
     <ClCompile Include="Src\Application\Object\Boss\Boss.cpp">
       <Filter>Src\Application\Object\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Application\EnemyBullet\EnemyBullet.cpp">
+      <Filter>Src\Application\EnemyBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
