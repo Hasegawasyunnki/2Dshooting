@@ -42,6 +42,16 @@ private:
 	int m_shotTimer = 0;
 	std::list<C_Bullet> m_bulletList;
 
+	// 自機の弾管理
+	bool   m_isTreeWay		= false;
+	float  m_powerUpTimer	= 0.0f;
+	float  m_zCoolTimer		= 0.0f;
+	const float POWERUP_DURATION = 300.0f;
+	const float Z_COOL_TIME = 600.0f;
+
+	float m_animeTimer = 0.0f;
+	int   m_animeIndex = 0;
+
 	KdTexture* m_tex;
 	Math::Vector2 m_pos; //座標
 	Math::Matrix m_mat;

@@ -5,8 +5,12 @@
 
 void TitleScene::Init()
 {
-	m_tex.Load("Texture/title.png");
-	m_startTex.Load("Texture/start.png");
+	//m_tex.Load("Texture/title.png");
+	//m_startTex.Load("Texture/start.png");
+
+	m_texBack.Load("Texture/TitleBack.png");
+	//m_texLogo.Load("Texture/TitleLogo.png");
+	m_texStart.Load("Texture/StartButton .png");
 
 	m_alpha = 1.0f;     // 最初ははっきり見える
 	m_alphaAdd = -0.02f; //
@@ -35,19 +39,20 @@ void TitleScene::Update()
 
 void TitleScene::Draw()
 {
-
 	Math::Matrix identity = Math::Matrix::Identity;
 	SHADER.m_spriteShader.SetMatrix(identity);
 
 	// 背景画像を描画（座標などは適宜調整してください）
 	Math::Rectangle rc = { 0, 0, 1280, 720 };
-	// m_tex（title.png）を描画
-	SHADER.m_spriteShader.DrawTex(&m_tex, 0, 0, &rc);
+	SHADER.m_spriteShader.DrawTex(&m_texBack, 0, 0, &rc);
 
-	// 文字（start.png）を点滅させて描画
-	Math::Rectangle startRc = { 0,0,512,128 };
-	Math::Color color = { 1, 1, 1, m_alpha }; // Updateで作っているm_alphaを使う
-	SHADER.m_spriteShader.DrawTex(&m_startTex, 0, -200,&startRc, &color);
+	//SHADER.m_spriteShader.DrawTex(&m_texLogo,(int)m_posLogo.x,(int)m_posLogo.y);
+
+	// スタートキーを点滅させて描画
+	Math::Rectangle startRc = { 0,0,512,179 };
+	Math::Color color = { 1, 1, 1, 1.0f }; // Updateで作っているm_alphaを使う
+	SHADER.m_spriteShader.DrawTex(&m_texStart, 0, -200, &startRc, &color);
+
 }
 
 void TitleScene::Release()

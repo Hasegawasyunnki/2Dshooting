@@ -34,6 +34,12 @@ void C_Player::Update()
 	if (GetAsyncKeyState(VK_DOWN) & 0x8000) m_pos.y -= m_moveSpeed;
 	if (GetAsyncKeyState(VK_LEFT) & 0x8000) m_pos.x -= m_moveSpeed;
 	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)m_pos.x += m_moveSpeed;
+	
+	m_animeTimer += 0.2f;
+	if (m_animeTimer >= 4.0f) {
+		m_animeTimer = 0.0f;
+	}
+	m_animeIndex = (int)m_animeTimer;
 
 	//　画面外制限
 	m_pos.y = std::max(-300.0f, std::min(300.0f, m_pos.y));
@@ -43,40 +49,59 @@ void C_Player::Update()
 	Math::Matrix translation = Math::Matrix::CreateTranslation(m_pos.x, m_pos.y, 0);
 	m_mat = rotation * translation;
 
-	m_shotTimer++;
+	// タイマー処理
+	if (m_powerUpTimer > 0) {
+		m_powerUpTimer -= 1.0f;
+		if (m_powerUpTimer <= 0)m_isTreeWay = false;
+	}
 
+	if (m_zCoolTimer > 0) {
+		m_zCoolTimer -= 1.0f;
+	}
+
+	// Zキーで三方向弾変更
+	if ((GetAsyncKeyState('Z') & 0x8000) && m_zCoolTimer <= 0) {
+		m_isTreeWay = true;
+		m_powerUpTimer = POWERUP_DURATION;
+		m_zCoolTimer = Z_COOL_TIME;
+	}
+
+	m_shotTimer++;
+	//	通常弾
 	if (GetAsyncKeyState(VK_SPACE) & 0x8000)
 	{
 		if (m_shotTimer > 10)
 		{
-			for (int i = 0; i < m_bulletNum; i++)
+			if (m_isTreeWay)
 			{
-				if (!m_bullet[i].GetAlive())
+				float shotAngles[] = { 0.0f,0.4f,-0.4f };
+				int firedCount = 0;
+				for (int i = 0; i < m_bulletNum; i++)
 				{
-					float tempAngle = 0.0f;
-
-					if (GetAsyncKeyState('R') & 0x8000)
+					if (!m_bullet[i].GetAlive())
 					{
-						if (GetAsyncKeyState('W') & 0x8000)tempAngle = 0.785f; // 約 -45度
-						else if (GetAsyncKeyState('S') & 0x8000)tempAngle = -0.785f;  // 約 +45度
+						m_bullet[i].Shot(m_pos, shotAngles[firedCount]);
+						firedCount++;
+						if (firedCount >= 3)break;
 					}
-					else
+				}
+				if (firedCount > 0)m_shotTimer = 0;
+			}
+			else
+			{
+				for (int i = 0; i < m_bulletNum; i++)
+				{
+					if (!m_bullet[i].GetAlive())
 					{
-						tempAngle = 0.0f;
-					}
-	
-					m_bullet[i].Shot(m_pos, tempAngle);
-
-					m_shotTimer = 0;
-					break;
+						m_bullet[i].Shot(m_pos, 0.0f);
+						m_shotTimer = 0;
+						break;
 					}
 				}
 			}
 		}
-
-
-	//m_mat = Math::Matrix::CreateTranslation(m_pos.x, m_pos.y, 0);
-	
+	}
+	// 弾更新
 	for (int i = 0; i < m_bulletNum; i++)
 	{
 		m_bullet[i].Update();
@@ -85,8 +110,11 @@ void C_Player::Update()
 
 void C_Player::Draw()
 {
+	int offsetX = m_animeIndex * 64;
+	Math::Rectangle srcRect = { offsetX,0,64,64 };
+
 	SHADER.m_spriteShader.SetMatrix(m_mat);
-	SHADER.m_spriteShader.DrawTex(m_tex, Math::Rectangle(0, 0, 64, 64), 1.0f);
+	SHADER.m_spriteShader.DrawTex(m_tex,0,0,&srcRect);
 	for (int i = 0; i < m_bulletNum; i++)
 	{
 		m_bullet[i].Draw();
@@ -125,6 +153,7 @@ void C_Player::CheckHitPlayer(C_Enemy* enemyList, int enemyNum)
 	}
 }
 
+// ボスと自機の当たり判定
 void C_Player::CheckHitBoss(C_Boss* pBoss)
 {
 	if (!pBoss || !pBoss->IsAlive())return;
@@ -153,13 +182,10 @@ void C_Player::SetTex(KdTexture* Tex)
 
 void C_Player::PlayerHp()
 {
-	/*if (m_life <= 0)
-	{
-		m_life = 0;
-		m_alive = false;
-	}*/
+
 }
 
+// 自機の体力減少
 void C_Player::LostLife()
 {
 	if (m_life > 0)

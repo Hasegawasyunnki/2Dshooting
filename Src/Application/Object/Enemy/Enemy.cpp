@@ -16,6 +16,8 @@ void C_Enemy::Init()
 	
 	m_targetOffset.x = (float)(rand() % 201 - 100);
 	m_targetOffset.y = (float)(rand() % 201 - 100);
+
+	m_shotTimer = 1000;
 	/*if (rand() % 2 == 0)
 	{
 		m_pos.x = (float)((rand() % 220) + 100);
@@ -29,24 +31,9 @@ void C_Enemy::Init()
 void C_Enemy::Update()
 {
 	if (!m_alive)return;
-	/*{
-		m_pos.x = 800.0f + (rand() % 300);
-		m_pos.y = (float)(rand() % 600 - 300);
-
-		m_alive = true;
-		m_timer = 0.0f;
-		m_type = static_cast<EnemyType>(rand() % 4);
-
-		return;
-	}*/
-
 	float currentSpeed = m_moveSpeed;
 	UpdateMovePattern(currentSpeed);
 
-	//m_pos.x += 5.0f;
-
-	//m_pos.x -= 3.0f;
-	
 	if (m_pos.x < -800.0f || m_pos.x>1200.0f)
 	{
 		m_alive = false;
@@ -59,8 +46,10 @@ void C_Enemy::Draw()
 {
 	if (!m_alive)return;
 
+	int offsetX = 0;
+	Math::Rectangle srcRect = { 64,64,-64,64 };
 	SHADER.m_spriteShader.SetMatrix(m_mat);
-	SHADER.m_spriteShader.DrawTex(m_tex, Math::Rectangle(0, 0, 64, 64), 1.0f);
+	SHADER.m_spriteShader.DrawTex(m_tex, 0, 0, &srcRect);
 }
 
 void C_Enemy::Hit(bool isDefeated)
@@ -139,7 +128,10 @@ void C_Enemy::UpdateMovePattern(float speed)
 		{
 			// 停止後の上下移動などの処理...
 			m_shotTimer++;
-			if (m_shotTimer > 120) {
+			int coolTime = 120;
+
+			if (m_shotTimer >= coolTime)
+			{
 				Shoot();
 				m_shotTimer = 0;
 			}

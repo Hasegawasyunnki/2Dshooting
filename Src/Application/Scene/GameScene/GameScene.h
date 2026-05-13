@@ -38,11 +38,11 @@ private:
 	EnemyBullet  m_enemyBullet[50];
 	int			m_enemyNum;
 	
-	KdTexture m_playerTex;
-	KdTexture m_enemyTex;
-	KdTexture m_bossTex;
-	KdTexture m_stageTex;
-	KdTexture m_backTex;
+	KdTexture	m_playerTex;
+	KdTexture	m_enemyTex;
+	KdTexture	m_bossTex;
+	KdTexture	m_stageTex;
+	KdTexture	m_backTex;
 	KdTexture   m_bulletTex;
 
 	int m_score = 0;
@@ -54,6 +54,7 @@ private:
 
 	int m_currentWave = 0;
 	int m_enemyCountInWave = 0;
+	int m_warningTimer = 0;
 	
 	POINT m_mousePos;
 };

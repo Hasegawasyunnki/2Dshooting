@@ -7,25 +7,19 @@
 	
 GameScene::~GameScene()
 {
-	/*for (auto enemy : m_enemyList)
-	{
-		delete enemy;
-	}
-	m_enemyList.clear();*/
-
 	Release();
 }
 
 void GameScene::Init()
 {
+	m_bulletTex.Load("Texture/bullet.png");
 	m_playerTex.Load("Texture/player.png");
 	m_enemyTex.Load("Texture/enemy.png");
 	m_bossTex.Load("Texture/boss.png");
 	m_stageTex.Load("Texture/background.png");
-	m_bulletTex.Load("Texture/bullet.png");
-
+	
 	for (int i = 0; i < 50; i++) {
-		m_enemyBullet[i].Init();
+		//m_enemyBullet[i].Init();
 		m_enemyBullet[i].SetTex(&m_bulletTex);
 	}
 
@@ -36,6 +30,7 @@ void GameScene::Init()
 	m_boss.Init();
 	m_boss.SetTex(&m_bossTex);
 	m_boss.SetPlayer(&m_player);
+	m_boss.SetOwner(this);
 
 	m_isBossSpawned = false;
 	m_deadEnemyCount = 0;
@@ -81,13 +76,20 @@ void GameScene::Update()
 	m_player.CheckHitBullet(m_enemy, m_enemyNum);
 	m_player.CheckHitPlayer(m_enemy, m_enemyNum);
 
+	if (m_warningTimer > 0)
+	{
+		m_warningTimer--;
+	}
+
 	if (m_isBossSpawned && m_boss.IsAlive()) 
 	{
 		m_player.CheckHitBoss(&m_boss);
 	}
 
+	int bossAppearWave = 5;
+
 	//　ボス出現条件
-	if (!m_isBossSpawned && m_deadEnemyCount >= 10)
+	if (!m_isBossSpawned && m_currentWave>=bossAppearWave)
 	{
 		SpawnBoss();
 		m_isBossSpawned = true;
@@ -150,14 +152,17 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
+	// 背景描画
 	m_stage.Draw();
-
+ 
 	for (int i = 0; i < 50; i++)
 	{
 		m_enemyBullet[i].Draw();
 	}
 
+	// プレイヤー描画
 	m_player.Draw();
+
 	for (int i = 0; i < m_enemyNum; i++)
 	{
 		if (m_enemy[i].IsAlive()) m_enemy[i].Draw();
@@ -168,7 +173,7 @@ void GameScene::Draw()
 		m_boss.Draw();
 	}
 
-	// --- 2. ライフ画像（アイコン）の描画を先に行う ---
+	//  ライフ画像
 	if (m_playerTex.GetSRView() != nullptr)
 	{
 		float startX = -600.0f;
@@ -186,8 +191,29 @@ void GameScene::Draw()
 			SHADER.m_spriteShader.DrawTex(&m_playerTex, Math::Rectangle(0, 0, 64, 64), 1.0f);
 		}
 	}
-
 	SHADER.m_spriteShader.SetMatrix(Math::Matrix::Identity);
+
+	//char waveStr[64];
+	//int waveCount = 1;
+	//sprintf_s(waveStr, "WAVE: %d", waveCount);
+	//SHADER.m_spriteShader.DrawString(180.0f, 320.0f, waveStr, { 1,1,1,1 });
+
+	// ボス出現時のWARING表示
+	if (m_warningTimer > 0)
+	{
+		if ((m_warningTimer / 15) % 2 == 0)
+		{
+			Math::Matrix scaleMat = Math::Matrix::CreateScale(5.0f);
+			Math::Matrix transMat = Math::Matrix::CreateTranslation(0, 100, 0);
+
+			SHADER.m_spriteShader.SetMatrix(scaleMat * transMat);
+			SHADER.m_spriteShader.DrawString(0, 0, "WARNING!!", { 1,0,0,1 });
+
+			SHADER.m_spriteShader.SetMatrix(Math::Matrix::Identity);
+		}
+	}
+
+	SHADER.m_spriteShader.DrawString(-600.0f, -320.0f, "[Z] three Way", { 1,1,1,0.7f });
 
 	// スコア表示
 	char scoreStr[64];
@@ -207,6 +233,8 @@ void GameScene::Release()
 {
 	m_playerTex.Release();
 	m_enemyTex.Release();
+	m_bossTex.Release();
+	m_bulletTex.Release();
 	m_stageTex.Release();
 }
 
@@ -282,4 +310,6 @@ void GameScene::SpawnBoss()
 {
 	m_boss.SetPos(1000.0f, 0.0f);
 	m_boss.Spawn();
+
+	m_warningTimer = 180;
 }

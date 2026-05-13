@@ -26,9 +26,10 @@ void C_Bullet::Update()
 void C_Bullet::Draw()
 {
 	if (!m_alive)return;
-
+	Math::Matrix scaleMat = Math::Matrix::CreateScale(2.0f);
+	Math::Matrix drawMat = scaleMat * m_mat;
 	SHADER.m_spriteShader.SetMatrix(m_mat);
-	SHADER.m_spriteShader.DrawTex(m_tex, Math::Rectangle(0, 0, 16, 16), 1.0f);
+	SHADER.m_spriteShader.DrawTex(m_tex, Math::Rectangle(0, 26, 32, 13), 1.0f);
 }
 
 void C_Bullet::Shot(Math::Vector2 pos, float targetAngle)

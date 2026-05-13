@@ -25,6 +25,7 @@ public:
 	{
 		m_nextSceneType = _nextScene;
 	}
+
 	// 現在のシーンを取得する
 	SceneType GetCurrentSceneType()const
 	{
@@ -33,14 +34,12 @@ public:
 
 	void ImGuiUpdate() {
 		if (m_currentScene) {
-			// 必要に応じて、BaseSceneにも virtual void ImGuiUpdate() = 0; を追加してください
 			// m_currentScene->ImGuiUpdate(); 
 		}
 	}
 
 private:
 
-	
 	void Init();
 	void Release();
 	void ChangeScene(SceneType _sceneType);
@@ -48,7 +47,7 @@ private:
 	// 変数
 	std::shared_ptr<BaseScene> m_currentScene;	//現在のシーンを管理しているポインタ
 
-	SceneType  m_currentSceneType = SceneType::Title;		// 現在のシーンの種類
+	SceneType  m_currentSceneType = SceneType::Title;	// 現在のシーンの種類
 	SceneType  m_nextSceneType = m_currentSceneType;	// 次のシーンの種類
 
 	int m_lastScore;

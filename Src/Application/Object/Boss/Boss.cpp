@@ -1,4 +1,5 @@
 #include "../Boss/Boss.h"
+#include "../../Scene/GameScene/GameScene.h"
 
 C_Boss::C_Boss()
 {
@@ -21,15 +22,22 @@ void C_Boss::Update()
 {
 	if (!m_alive)return;
 
-	m_timer += 0.02f;
-
-	if (m_pos.x > 400.0f) {
+	if (m_pos.x > m_targetX)
+	{
 		m_pos.x -= 2.0f;
-		m_pos.y = sinf(m_timer) * 200.0f;
 	}
-
-	//m_pos.y = sinf(m_timer) * 200.0f;
-
+	else
+	{
+		m_moveTimer += 0.05f;
+		m_pos.y = sinf(m_moveTimer) * 200.0f;
+	
+		m_shotTimer++;
+		if (m_shotTimer > 45)
+		{
+			Shoot();
+			m_shotTimer = 0;
+		}
+	}
 	m_mat = Math::Matrix::CreateTranslation(m_pos.x, m_pos.y, 0);
 }
 
@@ -51,6 +59,20 @@ void C_Boss::OnDamage(int damage)
 	if (m_hp <= 0)
 	{
 		m_alive = false;
+	}
+}
+
+void C_Boss::Shoot()
+{
+	if (m_pOwner)
+	{
+		m_pOwner->SpawnEnemyBullet(m_pos);
+
+		Math::Vector2 upPos = { m_pos.x,m_pos.y + 50.0f };
+		m_pOwner->SpawnEnemyBullet(upPos);
+
+		Math::Vector2 downPos = { m_pos.x,m_pos.y - 50.0f };
+		m_pOwner->SpawnEnemyBullet(downPos);
 	}
 }
 

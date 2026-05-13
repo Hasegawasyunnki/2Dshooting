@@ -59,6 +59,7 @@ protected:
 	int m_shotTimer = 0;
 	bool m_hasShot = false;
 
+
 	KdTexture*			m_tex;
 	Math::Vector2		m_pos;
 	Math::Vector2		m_move;
